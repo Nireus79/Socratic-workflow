@@ -1,6 +1,5 @@
 """Tests for WorkflowEngine."""
 
-
 import pytest
 
 from socratic_workflow import SimpleTask, Task, Workflow, WorkflowEngine
