@@ -219,6 +219,16 @@ class WorkflowResult:
     def to_dict(self) -> Dict[str, Any]
 ```
 
+## Support Development
+
+If you find this package useful, consider supporting development:
+
+- [Become a Sponsor](https://github.com/sponsors/Nireus79) - Get early access to new features
+- [Star on GitHub](https://github.com/Nireus79/Socratic-workflow) - Shows your appreciation
+- [Report Issues](https://github.com/Nireus79/Socratic-workflow/issues) - Help improve the package
+
+Your support helps fund development of the entire Socratic ecosystem.
+
 ## Examples
 
 ### Example 1: Basic Workflow
