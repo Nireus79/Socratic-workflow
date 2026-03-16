@@ -5,6 +5,16 @@
 [![PyPI](https://img.shields.io/pypi/v/socratic-workflow)](https://pypi.org/project/socratic-workflow/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## Why Socratic Workflow?
+
+Building multi-step AI workflows is complex. Socratic Workflow handles the production challenges:
+
+- **Cost Tracking** - Track LLM costs across 16+ models and 5 providers (Claude, GPT-4, Gemini, Llama, Mistral)
+- **Dependency Management** - Define complex task graphs with automatic dependency resolution
+- **Parallel Execution** - Run independent tasks concurrently for maximum performance
+- **Error Recovery** - Automatic retry logic with exponential backoff and graceful degradation
+- **Performance Analytics** - Measure execution time, bottlenecks, and success rates in real-time
+
 Production-grade workflow orchestration system with **LLM cost tracking**, **performance analytics**, and **dependency management**.
 
 ## Features
