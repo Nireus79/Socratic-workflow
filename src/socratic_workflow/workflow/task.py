@@ -11,7 +11,7 @@ class Task(ABC):
     All tasks must inherit from this class and implement the execute method.
     """
 
-    def __init__(self, name: Optional[str] = None, **kwargs):
+    def __init__(self, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         Initialize a task.
 
