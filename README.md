@@ -314,6 +314,10 @@ def risky_operation():
     return result
 ```
 
+## Documentation
+
+- **[Workflow Optimization Guide](docs/WORKFLOW_OPTIMIZATION.md)** - Complete guide to the Quality Controller mechanism, path optimization, cost calculation, and risk assessment algorithms
+
 ### Performance Metrics
 
 Collect and analyze performance data:
