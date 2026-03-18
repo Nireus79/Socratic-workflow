@@ -31,7 +31,9 @@ class CostCalculator:
         """Initialize cost calculator with token constants"""
         logger.debug("CostCalculator initialized")
 
-    def calculate_path_cost(self, path: WorkflowPath, workflow: WorkflowDefinition) -> Dict[str, Any]:
+    def calculate_path_cost(
+        self, path: WorkflowPath, workflow: WorkflowDefinition
+    ) -> Dict[str, Any]:
         """
         Calculate total token cost for a workflow path.
 
@@ -54,9 +56,9 @@ class CostCalculator:
         logger.debug(f"Calculating cost for path {path.id}")
 
         # Sum tokens from nodes
-        nodes_list = getattr(path, 'nodes', [])
+        nodes_list = getattr(path, "nodes", [])
         for node_id in nodes_list:
-            if not hasattr(workflow, 'nodes'):
+            if not hasattr(workflow, "nodes"):
                 continue
 
             nodes_dict = workflow.nodes if isinstance(workflow.nodes, dict) else {}
@@ -65,7 +67,7 @@ class CostCalculator:
                 continue
 
             node = nodes_dict[node_id]
-            node_tokens = getattr(node, 'estimated_tokens', 0)
+            node_tokens = getattr(node, "estimated_tokens", 0)
 
             total_tokens += node_tokens
             token_breakdown[node_id] = node_tokens
@@ -73,7 +75,7 @@ class CostCalculator:
             logger.debug(f"  Node {node_id}: {node_tokens} tokens")
 
         # Sum tokens from edges
-        edges_list = getattr(path, 'edges', [])
+        edges_list = getattr(path, "edges", [])
         for edge_id in edges_list:
             # Find edge in workflow
             edge_cost = self._find_edge_cost(workflow, edge_id)
@@ -105,14 +107,14 @@ class CostCalculator:
         Returns:
             Token cost for the edge (0 if not found)
         """
-        edges_list = getattr(workflow, 'edges', [])
+        edges_list = getattr(workflow, "edges", [])
         for edge in edges_list:
-            from_node = getattr(edge, 'from_node', '')
-            to_node = getattr(edge, 'to_node', '')
+            from_node = getattr(edge, "from_node", "")
+            to_node = getattr(edge, "to_node", "")
             # Edge ID is typically "from_node-to_node"
             potential_id = f"{from_node}-{to_node}"
             if potential_id == edge_id or edge_id == f"{from_node}-{to_node}":
-                return getattr(edge, 'cost', 0)
+                return getattr(edge, "cost", 0)
 
         logger.warning(f"Edge {edge_id} not found, defaulting to 0 cost")
         return 0

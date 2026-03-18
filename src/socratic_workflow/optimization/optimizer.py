@@ -91,7 +91,7 @@ class WorkflowOptimizer:
             "workflow_id": workflow.id,
             "all_paths": [self._path_to_dict(p) for p in all_paths],
             "recommended_path": self._path_to_dict(recommended_path),
-            "strategy": strategy.value if hasattr(strategy, 'value') else str(strategy),
+            "strategy": strategy.value if hasattr(strategy, "value") else str(strategy),
             "requested_by": requested_by,
             "status": "optimized",
         }
@@ -148,7 +148,9 @@ class WorkflowOptimizer:
             # Calculate quality and ROI
             path.quality_score = self._calculate_quality_score(path)
             path.expected_gain = self._calculate_expected_gain(path)
-            path.roi_score = self._calculate_roi(path, cost_metrics["total_tokens"], path.expected_gain)
+            path.roi_score = self._calculate_roi(
+                path, cost_metrics["total_tokens"], path.expected_gain
+            )
 
             logger.debug(
                 f"Path {path.id}: {path.total_cost} tokens, "
@@ -179,7 +181,7 @@ class WorkflowOptimizer:
         if not paths:
             raise ValueError("Cannot select from empty path list")
 
-        strategy_str = strategy.value if hasattr(strategy, 'value') else str(strategy).lower()
+        strategy_str = strategy.value if hasattr(strategy, "value") else str(strategy).lower()
 
         if "minimize_cost" in strategy_str or strategy_str == "minimize_cost":
             return min(paths, key=lambda p: p.total_cost)
@@ -236,13 +238,13 @@ class WorkflowOptimizer:
             Quality score (0-100)
         """
         # Base quality from coverage
-        coverage_quality = 100.0 - getattr(path, 'incompleteness_risk', 0)
+        coverage_quality = 100.0 - getattr(path, "incompleteness_risk", 0)
 
         # Depth/complexity adds quality
-        complexity_quality = getattr(path, 'complexity_risk', 0) * 0.5
+        complexity_quality = getattr(path, "complexity_risk", 0) * 0.5
 
         # Risk reduces quality
-        risk_penalty = getattr(path, 'risk_score', 0) * 0.3
+        risk_penalty = getattr(path, "risk_score", 0) * 0.3
 
         quality = coverage_quality + complexity_quality - risk_penalty
         quality = max(0.0, min(100.0, quality))  # Clamp to 0-100
@@ -260,10 +262,10 @@ class WorkflowOptimizer:
             Expected gain (0-100)
         """
         # Paths with better coverage gain more value
-        coverage_gain = (100.0 - getattr(path, 'incompleteness_risk', 0)) * 0.7
+        coverage_gain = (100.0 - getattr(path, "incompleteness_risk", 0)) * 0.7
 
         # Paths with good complexity gain more
-        complexity_gain = min(30.0, getattr(path, 'complexity_risk', 0) * 0.3)
+        complexity_gain = min(30.0, getattr(path, "complexity_risk", 0) * 0.3)
 
         expected_gain = coverage_gain + complexity_gain
         expected_gain = min(100.0, expected_gain)
@@ -324,11 +326,11 @@ class WorkflowOptimizer:
         """Convert WorkflowPath to dictionary for serialization"""
         return {
             "id": path.id,
-            "nodes": getattr(path, 'nodes', []),
-            "edges": getattr(path, 'edges', []),
-            "total_cost": getattr(path, 'total_cost', 0),
-            "risk_score": getattr(path, 'risk_score', 0.0),
-            "quality_score": getattr(path, 'quality_score', 0.0),
-            "roi_score": getattr(path, 'roi_score', 0.0),
-            "expected_gain": getattr(path, 'expected_gain', 0.0),
+            "nodes": getattr(path, "nodes", []),
+            "edges": getattr(path, "edges", []),
+            "total_cost": getattr(path, "total_cost", 0),
+            "risk_score": getattr(path, "risk_score", 0.0),
+            "quality_score": getattr(path, "quality_score", 0.0),
+            "roi_score": getattr(path, "roi_score", 0.0),
+            "expected_gain": getattr(path, "expected_gain", 0.0),
         }

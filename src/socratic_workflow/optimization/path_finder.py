@@ -26,8 +26,8 @@ class PathFinder:
         )
 
         all_paths = []
-        start_node = getattr(self.workflow, 'start_node', None)
-        end_nodes = getattr(self.workflow, 'end_nodes', [])
+        start_node = getattr(self.workflow, "start_node", None)
+        end_nodes = getattr(self.workflow, "end_nodes", [])
 
         if not start_node or not end_nodes:
             logger.warning("Workflow missing start or end nodes")
@@ -89,11 +89,11 @@ class PathFinder:
     def _build_adjacency_list(self) -> Dict[str, List[Tuple[str, str]]]:
         """Build adjacency list representation of the graph."""
         adjacency_list: Dict[str, List[Tuple[str, str]]] = {}
-        edges = getattr(self.workflow, 'edges', [])
+        edges = getattr(self.workflow, "edges", [])
 
         for edge in edges:
-            from_node = getattr(edge, 'from_node', '')
-            to_node = getattr(edge, 'to_node', '')
+            from_node = getattr(edge, "from_node", "")
+            to_node = getattr(edge, "to_node", "")
 
             if from_node not in adjacency_list:
                 adjacency_list[from_node] = []

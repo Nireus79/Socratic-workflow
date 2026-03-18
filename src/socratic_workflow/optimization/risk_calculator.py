@@ -18,9 +18,7 @@ class RiskCalculator:
         """Initialize risk calculator"""
         logger.debug("RiskCalculator initialized")
 
-    def calculate_path_risk(
-        self, path: Any, workflow: Any, context: dict = None
-    ) -> Dict[str, Any]:
+    def calculate_path_risk(self, path: Any, workflow: Any, context: dict = None) -> Dict[str, Any]:
         """
         Calculate comprehensive risk score for a workflow path.
 
@@ -37,7 +35,9 @@ class RiskCalculator:
 
         incompleteness_risk = self._calculate_incompleteness_risk(path, workflow, context)
         complexity_risk = self._calculate_complexity_risk(path, workflow)
-        rework_risk = self._calculate_rework_probability(path, workflow, context, incompleteness_risk)
+        rework_risk = self._calculate_rework_probability(
+            path, workflow, context, incompleteness_risk
+        )
 
         risk_score = (
             (incompleteness_risk * self.INCOMPLETENESS_WEIGHT)
@@ -62,8 +62,8 @@ class RiskCalculator:
         """Calculate incompleteness risk (coverage gaps)."""
         # Estimate based on path length and coverage metadata
         try:
-            nodes = getattr(path, 'nodes', [])
-            total_nodes = len(getattr(workflow, 'nodes', {}))
+            nodes = getattr(path, "nodes", [])
+            total_nodes = len(getattr(workflow, "nodes", {}))
 
             if total_nodes == 0:
                 return 0.0
@@ -81,13 +81,15 @@ class RiskCalculator:
         complexity_score = 0.0
         question_count = 0
 
-        nodes = getattr(path, 'nodes', [])
-        workflow_nodes = getattr(workflow, 'nodes', {})
+        nodes = getattr(path, "nodes", [])
+        workflow_nodes = getattr(workflow, "nodes", {})
 
         for node_id in nodes:
             if isinstance(workflow_nodes, dict) and node_id in workflow_nodes:
                 node = workflow_nodes[node_id]
-                node_type = getattr(getattr(node, 'node_type', None), 'value', str(getattr(node, 'node_type', '')))
+                node_type = getattr(
+                    getattr(node, "node_type", None), "value", str(getattr(node, "node_type", ""))
+                )
 
                 if node_type == "question_set" or "question" in str(node_type).lower():
                     question_count += 1
@@ -108,12 +110,14 @@ class RiskCalculator:
         """Calculate rework probability."""
         rework_base = incompleteness_risk * 0.8
 
-        nodes = getattr(path, 'nodes', [])
+        nodes = getattr(path, "nodes", [])
         path_length = len(nodes)
         length_risk = min(20.0, path_length * 2)
 
         rework_probability = min(100.0, rework_base + length_risk)
 
-        logger.debug(f"Rework probability: base={rework_base:.1f}%, length={length_risk:.1f}% = {rework_probability:.1f}%")
+        logger.debug(
+            f"Rework probability: base={rework_base:.1f}%, length={length_risk:.1f}% = {rework_probability:.1f}%"
+        )
 
         return rework_probability
