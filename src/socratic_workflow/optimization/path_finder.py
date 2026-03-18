@@ -1,7 +1,7 @@
 """Workflow Path Finder - DFS-based algorithm to enumerate all valid workflow paths."""
 
 import logging
-from typing import Dict, List, Set, Tuple
+from typing import Any, Dict, List, Set, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -18,14 +18,14 @@ class PathFinder:
             f"with {len(getattr(workflow, 'nodes', {}))} nodes"
         )
 
-    def find_all_paths(self) -> List:
+    def find_all_paths(self) -> List[Any]:
         """Find all valid paths from start node to any end node using DFS."""
         logger.debug(
             f"Finding all paths from '{getattr(self.workflow, 'start_node', None)}' "
             f"to {getattr(self.workflow, 'end_nodes', [])}"
         )
 
-        all_paths = []
+        all_paths: List[Any] = []
         start_node = getattr(self.workflow, "start_node", None)
         end_nodes = getattr(self.workflow, "end_nodes", [])
 

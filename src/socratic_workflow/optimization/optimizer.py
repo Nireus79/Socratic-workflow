@@ -8,7 +8,7 @@ This module is domain-agnostic and works with any workflow definition.
 """
 
 import logging
-from typing import List
+from typing import Any, Dict, List, Optional
 
 from socratic_workflow.models import PathDecisionStrategy, WorkflowDefinition, WorkflowPath
 from socratic_workflow.optimization.cost_calculator import CostCalculator
@@ -32,10 +32,10 @@ class WorkflowOptimizer:
     def optimize_workflow(
         self,
         workflow: WorkflowDefinition,
-        context: dict = None,
+        context: Optional[Dict[Any, Any]] = None,
         strategy: PathDecisionStrategy = PathDecisionStrategy.BALANCED,
         requested_by: str = "system",
-    ) -> dict:
+    ) -> Dict[Any, Any]:
         """
         Main entry point for workflow optimization.
 
