@@ -10,7 +10,7 @@ This module is domain-agnostic and works with any workflow definition.
 import logging
 from typing import List
 
-from socratic_workflow.models import PathDecisionStrategy, WorkflowPath, WorkflowDefinition
+from socratic_workflow.models import PathDecisionStrategy, WorkflowDefinition, WorkflowPath
 from socratic_workflow.optimization.cost_calculator import CostCalculator
 from socratic_workflow.optimization.path_finder import PathFinder
 from socratic_workflow.optimization.risk_calculator import RiskCalculator

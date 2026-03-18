@@ -1,7 +1,7 @@
 """Workflow Risk Calculator - Multi-dimensional risk assessment for workflow paths."""
 
 import logging
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 logger = logging.getLogger(__name__)
 
