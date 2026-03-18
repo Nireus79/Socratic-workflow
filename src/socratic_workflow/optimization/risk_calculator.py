@@ -18,7 +18,9 @@ class RiskCalculator:
         """Initialize risk calculator"""
         logger.debug("RiskCalculator initialized")
 
-    def calculate_path_risk(self, path: Any, workflow: Any, context: Optional[Dict[Any, Any]] = None) -> Dict[str, Any]:
+    def calculate_path_risk(
+        self, path: Any, workflow: Any, context: Optional[Dict[Any, Any]] = None
+    ) -> Dict[str, Any]:
         """
         Calculate comprehensive risk score for a workflow path.
 
