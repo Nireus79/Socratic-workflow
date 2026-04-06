@@ -7,6 +7,7 @@ Provides workflow definition, execution, cost tracking, and performance analytic
 from .analytics import MetricsCollector
 from .cost import CostTracker
 from .workflow import SimpleTask, Task, Workflow, WorkflowEngine, WorkflowResult
+from .workflow_executor import WorkflowExecutor
 from .workflow_templates import WorkflowTemplate, WorkflowTemplateLibrary
 
 __version__ = "0.1.0"
@@ -21,6 +22,8 @@ __all__ = [
     # Workflow Templates
     "WorkflowTemplate",
     "WorkflowTemplateLibrary",
+    # Workflow Execution
+    "WorkflowExecutor",
     # Cost tracking
     "CostTracker",
     # Analytics
