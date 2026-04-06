@@ -109,10 +109,10 @@ class WorkflowEngine:
 
     async def execute_async(self, workflow: Workflow) -> WorkflowResult:
         """
-        Execute workflow asynchronously.
+        Execute workflow asynchronously (sequential).
 
-        Currently executes sequentially using async/await.
-        Parallel execution support coming in Phase 3.
+        Executes tasks sequentially using async/await.
+        For parallel execution, use execute_parallel() instead.
 
         Args:
             workflow: Workflow to execute
@@ -163,6 +163,57 @@ class WorkflowEngine:
             result.success = False
             result.errors["_workflow"] = str(e)
 
+        finally:
+            end_time = time.perf_counter()
+            result.duration = end_time - start_time
+
+        return result
+
+    async def execute_parallel(
+        self, workflow: Workflow, max_concurrent: int = 5
+    ) -> WorkflowResult:
+        """
+        Execute workflow with parallel task execution.
+
+        Respects task dependencies while maximizing parallelism.
+        Independent tasks are executed concurrently.
+
+        Args:
+            workflow: Workflow to execute
+            max_concurrent: Maximum tasks to run concurrently (default: 5)
+
+        Returns:
+            WorkflowResult with execution details
+
+        Example:
+            ```python
+            engine = WorkflowEngine()
+            result = await engine.execute_parallel(
+                workflow,
+                max_concurrent=10
+            )
+            ```
+
+        Notes:
+            - Tasks without dependencies execute immediately
+            - Tasks wait for all dependencies before starting
+            - Concurrency limited by max_concurrent parameter
+            - Errors in one task don't block independent tasks
+            - Significantly faster than sequential for complex workflows
+        """
+        from .parallel_executor import ParallelWorkflowExecutor
+
+        self.state = WorkflowState(workflow.name)
+        start_time = time.perf_counter()
+
+        try:
+            executor = ParallelWorkflowExecutor(max_concurrent=max_concurrent)
+            result = await executor.execute_parallel(workflow, self.state)
+        except Exception as e:
+            self.logger.error(f"Parallel workflow execution failed: {e}", exc_info=True)
+            result = WorkflowResult()
+            result.success = False
+            result.errors["_workflow"] = str(e)
         finally:
             end_time = time.perf_counter()
             result.duration = end_time - start_time
