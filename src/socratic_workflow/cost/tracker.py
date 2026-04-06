@@ -63,19 +63,36 @@ class CostTracker:
         provider: Optional[str] = None,
     ) -> float:
         """
-        Track a single LLM API call.
+        Track a single LLM API call with input validation.
 
         Args:
             model: Model name (e.g., "claude-opus-4", "gpt-4")
-            input_tokens: Number of input tokens
-            output_tokens: Number of output tokens
+            input_tokens: Number of input tokens (must be non-negative)
+            output_tokens: Number of output tokens (must be non-negative)
             provider: Optional provider name (auto-detected if not provided)
 
         Returns:
             Cost of this call in USD
+
+        Raises:
+            ValueError: If model is unknown or token counts are invalid
+            TypeError: If token counts are not integers
         """
+        # Validate model
         if model not in self.PRICING:
             raise ValueError(f"Unknown model: {model}. Use get_supported_models() for list.")
+
+        # Validate token counts are integers
+        if not isinstance(input_tokens, int):
+            raise TypeError(f"input_tokens must be an integer, got {type(input_tokens).__name__}")
+        if not isinstance(output_tokens, int):
+            raise TypeError(f"output_tokens must be an integer, got {type(output_tokens).__name__}")
+
+        # Validate token counts are non-negative
+        if input_tokens < 0:
+            raise ValueError(f"input_tokens must be non-negative, got {input_tokens}")
+        if output_tokens < 0:
+            raise ValueError(f"output_tokens must be non-negative, got {output_tokens}")
 
         pricing = self.PRICING[model]  # type: ignore
         cost = (input_tokens / 1000 * pricing["input"]) + (  # type: ignore

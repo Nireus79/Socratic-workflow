@@ -38,18 +38,44 @@ class Workflow:
         Add a task to the workflow.
 
         Args:
-            task_id: Unique task identifier
+            task_id: Unique task identifier (non-empty string)
             task: Task instance to add
             depends_on: List of task IDs this task depends on
 
         Returns:
             Self for method chaining
+
+        Raises:
+            TypeError: If task_id is not a string or task is not a Task instance
+            ValueError: If task_id is empty, already exists, or depends_on contains invalid task IDs
         """
+        # Validate task_id
+        if not isinstance(task_id, str):
+            raise TypeError(f"task_id must be a string, got {type(task_id).__name__}")
+        if not task_id.strip():
+            raise ValueError("task_id must be a non-empty string")
+
+        # Validate task is a Task instance
+        if not isinstance(task, Task):
+            raise TypeError(f"task must be a Task instance, got {type(task).__name__}")
+
+        # Validate task_id is unique
         if task_id in self.tasks:
             raise ValueError(f"Task '{task_id}' already exists in workflow")
 
+        # Validate depends_on references exist (validate that all dependencies are known tasks)
+        depends_on_list = depends_on or []
+        if not isinstance(depends_on_list, list):
+            raise TypeError(f"depends_on must be a list, got {type(depends_on_list).__name__}")
+
+        for dep_id in depends_on_list:
+            if not isinstance(dep_id, str):
+                raise TypeError(f"Dependency IDs must be strings, got {type(dep_id).__name__} for '{dep_id}'")
+            if not dep_id.strip():
+                raise ValueError("Dependency IDs must be non-empty strings")
+
         self.tasks[task_id] = task
-        self.dependencies[task_id] = depends_on or []
+        self.dependencies[task_id] = depends_on_list
 
         return self
 

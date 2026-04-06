@@ -1,8 +1,12 @@
 """Workflow state management for persistence and resumption."""
 
 import json
+import logging
 from datetime import datetime
+from pathlib import Path
 from typing import Any, Dict, Optional
+
+logger = logging.getLogger(__name__)
 
 
 class WorkflowState:
@@ -99,13 +103,87 @@ class WorkflowState:
         return state
 
     def save_to_file(self, path: str) -> None:
-        """Save state to JSON file."""
-        with open(path, "w") as f:
-            json.dump(self.to_dict(), f, indent=2)
+        """
+        Save state to JSON file with path validation.
+
+        Args:
+            path: File path to save state to
+
+        Raises:
+            ValueError: If path is invalid or outside allowed directory
+            IOError: If write fails
+        """
+        # Validate path to prevent directory traversal
+        file_path = Path(path).resolve()
+
+        # Ensure path is within allowed scope (current directory or subdirectories)
+        try:
+            # This will raise ValueError if the path goes outside the allowed scope
+            file_path.relative_to(Path.cwd())
+        except ValueError:
+            logger.error(f"Path traversal attempt detected: {path}")
+            raise ValueError(f"Path must be within working directory, got: {path}")
+
+        # Create parent directory if needed
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+
+        try:
+            with open(file_path, "w") as f:
+                json.dump(self.to_dict(), f, indent=2)
+            logger.debug(f"Workflow state saved to {file_path}")
+        except IOError as e:
+            logger.error(f"Failed to save workflow state to {file_path}: {e}")
+            raise
 
     @classmethod
     def load_from_file(cls, path: str) -> "WorkflowState":
-        """Load state from JSON file."""
-        with open(path, "r") as f:
-            data = json.load(f)
-        return cls.from_dict(data)
+        """
+        Load state from JSON file with validation.
+
+        Args:
+            path: File path to load state from
+
+        Returns:
+            WorkflowState object loaded from file
+
+        Raises:
+            ValueError: If path is invalid or JSON schema is invalid
+            IOError: If read fails
+        """
+        # Validate path to prevent directory traversal
+        file_path = Path(path).resolve()
+
+        # Ensure path is within allowed scope
+        try:
+            file_path.relative_to(Path.cwd())
+        except ValueError:
+            logger.error(f"Path traversal attempt detected: {path}")
+            raise ValueError(f"Path must be within working directory, got: {path}")
+
+        try:
+            with open(file_path, "r") as f:
+                data = json.load(f)
+        except IOError as e:
+            logger.error(f"Failed to load workflow state from {file_path}: {e}")
+            raise
+        except json.JSONDecodeError as e:
+            logger.error(f"Invalid JSON in state file {file_path}: {e}")
+            raise ValueError(f"Invalid JSON format in state file: {e}")
+
+        # Validate required fields
+        required_fields = {"workflow_name", "started_at", "task_results", "task_status"}
+        if not isinstance(data, dict):
+            raise ValueError("State file must contain a JSON object")
+
+        missing_fields = required_fields - set(data.keys())
+        if missing_fields:
+            logger.error(f"Missing required fields in state file: {missing_fields}")
+            raise ValueError(f"State file missing required fields: {missing_fields}")
+
+        try:
+            state = cls.from_dict(data)
+            logger.debug(f"Workflow state loaded from {file_path}")
+            return state
+        except (KeyError, TypeError) as e:
+            logger.error(f"Error deserializing state file {file_path}: {e}")
+            raise ValueError(f"Invalid state file format: {e}")
