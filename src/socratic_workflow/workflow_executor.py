@@ -149,7 +149,10 @@ class WorkflowExecutor:
             )
 
             # Emit completion event
-            self._emit_event("workflow_completed", {"workflow_id": workflow_id, "status": workflow_state["status"]})
+            self._emit_event(
+                "workflow_completed",
+                {"workflow_id": workflow_id, "status": workflow_state["status"]},
+            )
 
             return {
                 "workflow_id": workflow_id,
@@ -231,7 +234,9 @@ class WorkflowExecutor:
                 "message": str(e),
             }
 
-    def _execute_action(self, action: str, request: Dict[str, Any], variables: Dict[str, Any]) -> Dict[str, Any]:
+    def _execute_action(
+        self, action: str, request: Dict[str, Any], variables: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Execute a built-in action (not an agent call).
 
@@ -260,8 +265,10 @@ class WorkflowExecutor:
             # Evaluate condition (simple variable check)
             condition_result = variables.get(condition, False)
 
-            result = self._execute_step(true_branch, variables) if condition_result else self._execute_step(
-                false_branch, variables
+            result = (
+                self._execute_step(true_branch, variables)
+                if condition_result
+                else self._execute_step(false_branch, variables)
             )
             return result
 

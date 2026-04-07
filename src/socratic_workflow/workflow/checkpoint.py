@@ -95,9 +95,7 @@ class CheckpointManager:
 
         # Find last completed task
         completed_tasks = [
-            task_id
-            for task_id, status in task_status.items()
-            if status == "completed"
+            task_id for task_id, status in task_status.items() if status == "completed"
         ]
         last_completed = completed_tasks[-1] if completed_tasks else None
 
@@ -265,9 +263,7 @@ class CheckpointManager:
             if self.delete_checkpoint(checkpoint.checkpoint_id):
                 deleted_count += 1
 
-        self.logger.info(
-            f"Cleaned up {deleted_count} old checkpoints for {workflow_name}"
-        )
+        self.logger.info(f"Cleaned up {deleted_count} old checkpoints for {workflow_name}")
         return deleted_count
 
     def tag_checkpoint(
@@ -380,7 +376,9 @@ class CheckpointManager:
             if checkpoint_id:
                 metadata.checkpoint_id = checkpoint_id
             else:
-                checkpoint_id = f"{metadata.checkpoint_id}_imported_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+                checkpoint_id = (
+                    f"{metadata.checkpoint_id}_imported_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+                )
                 metadata.checkpoint_id = checkpoint_id
 
             data["metadata"] = metadata.to_dict()

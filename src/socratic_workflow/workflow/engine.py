@@ -169,9 +169,7 @@ class WorkflowEngine:
 
         return result
 
-    async def execute_parallel(
-        self, workflow: Workflow, max_concurrent: int = 5
-    ) -> WorkflowResult:
+    async def execute_parallel(self, workflow: Workflow, max_concurrent: int = 5) -> WorkflowResult:
         """
         Execute workflow with parallel task execution.
 

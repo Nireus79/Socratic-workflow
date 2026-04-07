@@ -70,7 +70,9 @@ class Workflow:
 
         for dep_id in depends_on_list:
             if not isinstance(dep_id, str):
-                raise TypeError(f"Dependency IDs must be strings, got {type(dep_id).__name__} for '{dep_id}'")
+                raise TypeError(
+                    f"Dependency IDs must be strings, got {type(dep_id).__name__} for '{dep_id}'"
+                )
             if not dep_id.strip():
                 raise ValueError("Dependency IDs must be non-empty strings")
 

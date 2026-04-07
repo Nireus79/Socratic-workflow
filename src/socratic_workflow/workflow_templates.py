@@ -166,7 +166,11 @@ class WorkflowTemplateLibrary:
                 },
                 parameters={
                     "project_id": {"type": "string", "required": True},
-                    "depth": {"type": "string", "default": "standard", "enum": ["quick", "standard", "deep"]},
+                    "depth": {
+                        "type": "string",
+                        "default": "standard",
+                        "enum": ["quick", "standard", "deep"],
+                    },
                 },
             )
         )

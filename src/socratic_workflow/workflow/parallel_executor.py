@@ -190,7 +190,7 @@ class ParallelWorkflowExecutor:
         """
         try:
             # Check if task has async method
-            if hasattr(task, 'execute_async') and callable(task.execute_async):
+            if hasattr(task, "execute_async") and callable(task.execute_async):
                 result = await task.execute_async(context)
             else:
                 # Fall back to sync execution in thread pool
@@ -239,7 +239,7 @@ class PriorityWorkflowExecutor(ParallelWorkflowExecutor):
         # Sort by task priority if available
         def get_priority(task_id: str) -> float:
             task = workflow.get_task(task_id)
-            if task and hasattr(task, 'priority'):
+            if task and hasattr(task, "priority"):
                 return -task.priority  # Negate for sort (higher priority first)
             return 0
 
