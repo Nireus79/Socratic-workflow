@@ -2,7 +2,7 @@
 
 import asyncio
 import logging
-from typing import Any, Dict, List, Set
+from typing import Any, Dict, List, Optional, Set
 
 from .definition import Workflow
 from .engine import WorkflowResult
@@ -130,25 +130,25 @@ class ParallelWorkflowExecutor:
                 # Process completed tasks
                 for async_task in done:
                     # Find which task completed
-                    task_id = None
+                    completed_task_id: Optional[str] = None
                     for tid, atask in running_tasks.items():
                         if atask is async_task:
-                            task_id = tid
+                            completed_task_id = tid
                             break
 
-                    if task_id:
-                        del running_tasks[task_id]
+                    if completed_task_id:
+                        del running_tasks[completed_task_id]
 
                         if async_task.exception():
-                            failed.add(task_id)
+                            failed.add(completed_task_id)
                             error_msg = str(async_task.exception())
-                            state.mark_task_failed(task_id, error_msg)
-                            self.logger.error(f"Task '{task_id}' failed: {error_msg}")
+                            state.mark_task_failed(completed_task_id, error_msg)
+                            self.logger.error(f"Task '{completed_task_id}' failed: {error_msg}")
                         else:
-                            completed.add(task_id)
+                            completed.add(completed_task_id)
                             result_data = async_task.result()
-                            state.mark_task_completed(task_id, result_data)
-                            self.logger.info(f"Task '{task_id}' completed successfully")
+                            state.mark_task_completed(completed_task_id, result_data)
+                            self.logger.info(f"Task '{completed_task_id}' completed successfully")
 
             state.mark_completed()
             result.success = len(failed) == 0

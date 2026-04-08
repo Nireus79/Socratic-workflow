@@ -157,8 +157,8 @@ class DistributedScheduler:
     async def schedule_task(
         self,
         function: Callable,
-        args: List[Any] = None,
-        kwargs: Dict[str, Any] = None,
+        args: Optional[List[Any]] = None,
+        kwargs: Optional[Dict[str, Any]] = None,
         priority: int = 0,
         name: str = "",
     ) -> str:

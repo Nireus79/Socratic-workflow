@@ -97,9 +97,9 @@ class WorkflowExecutor:
         self._workflows[workflow_id] = workflow_state
 
         steps = workflow.get("steps", [])
-        completed_steps = set()
-        failed_steps = set()
-        variables = {}
+        completed_steps: set[str] = set()
+        failed_steps: set[str] = set()
+        variables: dict[str, Any] = {}
 
         try:
             # Execute steps
