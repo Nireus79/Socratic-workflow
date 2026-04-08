@@ -104,25 +104,15 @@ class WorkflowState:
 
     def save_to_file(self, path: str) -> None:
         """
-        Save state to JSON file with path validation.
+        Save state to JSON file.
 
         Args:
             path: File path to save state to
 
         Raises:
-            ValueError: If path is invalid or outside allowed directory
             IOError: If write fails
         """
-        # Validate path to prevent directory traversal
         file_path = Path(path).resolve()
-
-        # Ensure path is within allowed scope (current directory or subdirectories)
-        try:
-            # This will raise ValueError if the path goes outside the allowed scope
-            file_path.relative_to(Path.cwd())
-        except ValueError:
-            logger.error(f"Path traversal attempt detected: {path}")
-            raise ValueError(f"Path must be within working directory, got: {path}")
 
         # Create parent directory if needed
         file_path.parent.mkdir(parents=True, exist_ok=True)
@@ -147,18 +137,10 @@ class WorkflowState:
             WorkflowState object loaded from file
 
         Raises:
-            ValueError: If path is invalid or JSON schema is invalid
+            ValueError: If JSON schema is invalid
             IOError: If read fails
         """
-        # Validate path to prevent directory traversal
         file_path = Path(path).resolve()
-
-        # Ensure path is within allowed scope
-        try:
-            file_path.relative_to(Path.cwd())
-        except ValueError:
-            logger.error(f"Path traversal attempt detected: {path}")
-            raise ValueError(f"Path must be within working directory, got: {path}")
 
         try:
             with open(file_path, "r") as f:
