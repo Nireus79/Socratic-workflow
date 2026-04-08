@@ -2,7 +2,7 @@
 
 import asyncio
 import logging
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Set
 
 from .definition import Workflow
 from .engine import WorkflowResult
