@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 Workflow optimization models for Quality Controller
 

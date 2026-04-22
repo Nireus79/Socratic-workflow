@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 Socratic Workflow - Workflow Definition and Management
 
