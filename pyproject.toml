@@ -43,11 +43,13 @@ nexus = ["socratic-nexus>=0.3.6"]
 agents = ["socratic-agents>=0.1.0"]
 openclaw = []
 langchain = ["langchain>=0.1.0"]
+langraph = ["langgraph>=0.0.1"]
 
 all = [
     "socratic-nexus>=0.3.6",
     "socratic-agents>=0.1.0",
     "langchain>=0.1.0",
+    "langgraph>=0.0.1",
 ]
 
 dev = [
