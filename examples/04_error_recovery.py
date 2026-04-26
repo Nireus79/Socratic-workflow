@@ -10,12 +10,13 @@ Requirements: pip install socratic-workflow
 
 import random
 
-from socratic_workflow import Task
 from socratic_workflow.execution.retry import (
     RetryableFunction,
     RetryConfig,
     retry,
 )
+
+from socratic_workflow import Task
 
 
 class FlakeyTask(Task):

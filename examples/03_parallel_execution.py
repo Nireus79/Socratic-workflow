@@ -10,8 +10,9 @@ Requirements: pip install socratic-workflow
 
 import asyncio
 
-from socratic_workflow import SimpleTask, Task, Workflow
 from socratic_workflow.execution.executor import ParallelExecutor
+
+from socratic_workflow import SimpleTask, Task, Workflow
 
 
 class DataProcessingTask(Task):

@@ -7,8 +7,9 @@ Demonstrates how to track LLM costs across different providers and models.
 Requirements: pip install socratic-workflow
 """
 
-from socratic_workflow import Task, Workflow, WorkflowEngine
 from socratic_workflow.cost import CostTracker
+
+from socratic_workflow import Task, Workflow, WorkflowEngine
 
 
 class LLMTask(Task):
