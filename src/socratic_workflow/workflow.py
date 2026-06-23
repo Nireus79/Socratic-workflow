@@ -7,7 +7,7 @@ Provides data structures for workflow definition, path enumeration,
 cost/risk calculation, and approval workflow management.
 """
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
@@ -35,7 +35,16 @@ class PathDecisionStrategy(Enum):
 
 @dataclass
 class WorkflowNode:
-    """Represents a step/node in a workflow graph"""
+    @staticmethod
+    def from_dict(data: dict) -> "WorkflowNode":
+        """Deserialize from dictionary."""
+        return WorkflowNode(**data)
+
+    def to_dict(self) -> dict:
+        """Serialize to dictionary."""
+        from dataclasses import asdict
+        return asdict(self)
+
 
     node_id: str
     node_type: WorkflowNodeType
@@ -47,7 +56,16 @@ class WorkflowNode:
 
 @dataclass
 class WorkflowEdge:
-    """Represents a transition/edge between workflow nodes"""
+    @staticmethod
+    def from_dict(data: dict) -> "WorkflowEdge":
+        """Deserialize from dictionary."""
+        return WorkflowEdge(**data)
+
+    def to_dict(self) -> dict:
+        """Serialize to dictionary."""
+        from dataclasses import asdict
+        return asdict(self)
+
 
     from_node: str
     to_node: str
@@ -58,7 +76,16 @@ class WorkflowEdge:
 
 @dataclass
 class WorkflowPath:
-    """Complete path through workflow with calculated metrics"""
+    @staticmethod
+    def from_dict(data: dict) -> "WorkflowPath":
+        """Deserialize from dictionary."""
+        return WorkflowPath(**data)
+
+    def to_dict(self) -> dict:
+        """Serialize to dictionary."""
+        from dataclasses import asdict
+        return asdict(self)
+
 
     path_id: str
     nodes: List[str]  # Ordered list of node IDs in this path
@@ -78,7 +105,16 @@ class WorkflowPath:
 
 @dataclass
 class WorkflowDefinition:
-    """Complete workflow graph definition with nodes, edges, and metadata"""
+    @staticmethod
+    def from_dict(data: dict) -> "WorkflowDefinition":
+        """Deserialize from dictionary."""
+        return WorkflowDefinition(**data)
+
+    def to_dict(self) -> dict:
+        """Serialize to dictionary."""
+        from dataclasses import asdict
+        return asdict(self)
+
 
     workflow_id: str
     name: str
@@ -93,7 +129,16 @@ class WorkflowDefinition:
 
 @dataclass
 class WorkflowApprovalRequest:
-    """Request for user/system approval of a workflow path"""
+    @staticmethod
+    def from_dict(data: dict) -> "WorkflowApprovalRequest":
+        """Deserialize from dictionary."""
+        return WorkflowApprovalRequest(**data)
+
+    def to_dict(self) -> dict:
+        """Serialize to dictionary."""
+        from dataclasses import asdict
+        return asdict(self)
+
 
     request_id: str
     project_id: str
@@ -111,7 +156,16 @@ class WorkflowApprovalRequest:
 
 @dataclass
 class WorkflowExecutionState:
-    """Tracks current execution state within an approved workflow path"""
+    @staticmethod
+    def from_dict(data: dict) -> "WorkflowExecutionState":
+        """Deserialize from dictionary."""
+        return WorkflowExecutionState(**data)
+
+    def to_dict(self) -> dict:
+        """Serialize to dictionary."""
+        from dataclasses import asdict
+        return asdict(self)
+
 
     execution_id: str
     workflow_id: str
