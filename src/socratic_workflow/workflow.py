@@ -1,29 +1,17 @@
-from __future__ import annotations
-
-"""
-Workflow optimization models for Quality Controller
+"""Workflow optimization models for Quality Controller
 
 Provides data structures for workflow definition, path enumeration,
 cost/risk calculation, and approval workflow management.
 """
 
-from dataclasses import dataclass, field, asdict
+from __future__ import annotations
+
+from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
 
 class WorkflowNodeType(Enum):
-    @staticmethod
-    def from_dict(data: dict) -> "WorkflowNode":
-        """Deserialize from dictionary."""
-        return WorkflowNode(**data)
-
-    def to_dict(self) -> dict:
-        """Serialize to dictionary."""
-        from dataclasses import asdict
-
-        return asdict(self)
-
     """Types of nodes in a workflow graph"""
 
     PHASE_START = "phase_start"
@@ -46,16 +34,7 @@ class PathDecisionStrategy(Enum):
 
 @dataclass
 class WorkflowNode:
-    @staticmethod
-    def from_dict(data: dict) -> "WorkflowNode":
-        """Deserialize from dictionary."""
-        return WorkflowNode(**data)
-
-    def to_dict(self) -> dict:
-        """Serialize to dictionary."""
-        from dataclasses import asdict
-
-        return asdict(self)
+    """Represents a step/node in a workflow graph"""
 
     node_id: str
     node_type: WorkflowNodeType
@@ -64,19 +43,19 @@ class WorkflowNode:
     questions: List[str] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
 
-
-@dataclass
-class WorkflowEdge:
     @staticmethod
-    def from_dict(data: dict) -> "WorkflowEdge":
+    def from_dict(data: dict) -> WorkflowNode:
         """Deserialize from dictionary."""
-        return WorkflowEdge(**data)
+        return WorkflowNode(**data)
 
     def to_dict(self) -> dict:
         """Serialize to dictionary."""
-        from dataclasses import asdict
-
         return asdict(self)
+
+
+@dataclass
+class WorkflowEdge:
+    """Represents a transition/edge between workflow nodes"""
 
     from_node: str
     to_node: str
@@ -85,29 +64,18 @@ class WorkflowEdge:
     cost: int = 0
 
     @staticmethod
-    def from_dict(data: dict) -> "WorkflowEdge":
+    def from_dict(data: dict) -> WorkflowEdge:
         """Deserialize from dictionary."""
         return WorkflowEdge(**data)
 
     def to_dict(self) -> dict:
         """Serialize to dictionary."""
-        from dataclasses import asdict
-
         return asdict(self)
 
 
 @dataclass
 class WorkflowPath:
-    @staticmethod
-    def from_dict(data: dict) -> "WorkflowPath":
-        """Deserialize from dictionary."""
-        return WorkflowPath(**data)
-
-    def to_dict(self) -> dict:
-        """Serialize to dictionary."""
-        from dataclasses import asdict
-
-        return asdict(self)
+    """Complete path through workflow with calculated metrics"""
 
     path_id: str
     nodes: List[str]  # Ordered list of node IDs in this path
@@ -125,29 +93,18 @@ class WorkflowPath:
     roi_score: float = 0.0
 
     @staticmethod
-    def from_dict(data: dict) -> "WorkflowPath":
+    def from_dict(data: dict) -> WorkflowPath:
         """Deserialize from dictionary."""
         return WorkflowPath(**data)
 
     def to_dict(self) -> dict:
         """Serialize to dictionary."""
-        from dataclasses import asdict
-
         return asdict(self)
 
 
 @dataclass
 class WorkflowDefinition:
-    @staticmethod
-    def from_dict(data: dict) -> "WorkflowDefinition":
-        """Deserialize from dictionary."""
-        return WorkflowDefinition(**data)
-
-    def to_dict(self) -> dict:
-        """Serialize to dictionary."""
-        from dataclasses import asdict
-
-        return asdict(self)
+    """Complete workflow graph definition with nodes, edges, and metadata"""
 
     workflow_id: str
     name: str
@@ -160,29 +117,18 @@ class WorkflowDefinition:
     metadata: Dict[str, Any] = field(default_factory=dict)
 
     @staticmethod
-    def from_dict(data: dict) -> "WorkflowDefinition":
+    def from_dict(data: dict) -> WorkflowDefinition:
         """Deserialize from dictionary."""
         return WorkflowDefinition(**data)
 
     def to_dict(self) -> dict:
         """Serialize to dictionary."""
-        from dataclasses import asdict
-
         return asdict(self)
 
 
 @dataclass
 class WorkflowApprovalRequest:
-    @staticmethod
-    def from_dict(data: dict) -> "WorkflowApprovalRequest":
-        """Deserialize from dictionary."""
-        return WorkflowApprovalRequest(**data)
-
-    def to_dict(self) -> dict:
-        """Serialize to dictionary."""
-        from dataclasses import asdict
-
-        return asdict(self)
+    """Request for user/system approval of a workflow path"""
 
     request_id: str
     project_id: str
@@ -198,29 +144,18 @@ class WorkflowApprovalRequest:
     approval_timestamp: Optional[str] = None
 
     @staticmethod
-    def from_dict(data: dict) -> "WorkflowApprovalRequest":
+    def from_dict(data: dict) -> WorkflowApprovalRequest:
         """Deserialize from dictionary."""
         return WorkflowApprovalRequest(**data)
 
     def to_dict(self) -> dict:
         """Serialize to dictionary."""
-        from dataclasses import asdict
-
         return asdict(self)
 
 
 @dataclass
 class WorkflowExecutionState:
-    @staticmethod
-    def from_dict(data: dict) -> "WorkflowExecutionState":
-        """Deserialize from dictionary."""
-        return WorkflowExecutionState(**data)
-
-    def to_dict(self) -> dict:
-        """Serialize to dictionary."""
-        from dataclasses import asdict
-
-        return asdict(self)
+    """Tracks current execution state within an approved workflow path"""
 
     execution_id: str
     workflow_id: str
@@ -234,12 +169,10 @@ class WorkflowExecutionState:
     status: str = "active"  # "active", "completed", "paused"
 
     @staticmethod
-    def from_dict(data: dict) -> "WorkflowExecutionState":
+    def from_dict(data: dict) -> WorkflowExecutionState:
         """Deserialize from dictionary."""
         return WorkflowExecutionState(**data)
 
     def to_dict(self) -> dict:
         """Serialize to dictionary."""
-        from dataclasses import asdict
-
         return asdict(self)
