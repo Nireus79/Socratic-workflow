@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "socratic-workflow"
-version = "0.1.5"
-description = "Production-grade workflow orchestration system with LLM cost tracking, performance analytics, and dependency management."
+version = "0.1.6"
+description = "Workflow orchestration with LLM cost tracking, performance analytics and dependency management."
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
