@@ -9,7 +9,7 @@ description = "Production-grade workflow orchestration system with LLM cost trac
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
-    {name = "Socratic Workflow Contributors"}
+    {name = "Efthimios Angelopoulos", email = "Hermes_creative@proton.me"}
 ]
 keywords = [
     "workflow",
