@@ -7,7 +7,7 @@
 
 ## Why Socratic Workflow?
 
-Building multi-step AI workflows is complex. Socratic Workflow handles the production challenges:
+Building multi-step AI workflows is complex. Socratic Workflow handles these challenges:
 
 - **Cost Tracking** - Track LLM costs across 16+ models and 5 providers (Claude, GPT-4, Gemini, Llama, Mistral)
 - **Dependency Management** - Define complex task graphs with automatic dependency resolution
@@ -15,7 +15,7 @@ Building multi-step AI workflows is complex. Socratic Workflow handles the produ
 - **Error Recovery** - Automatic retry logic with exponential backoff and graceful degradation
 - **Performance Analytics** - Measure execution time, bottlenecks, and success rates in real-time
 
-Production-grade workflow orchestration system with **LLM cost tracking**, **performance analytics**, and **dependency management**.
+Workflow orchestration system with **LLM cost tracking**, **performance analytics**, and **dependency management**.
 
 ## Features
 
@@ -408,11 +408,9 @@ result = await skill.execute_workflow({
 - [x] Socratic Agents compatibility
 
 ### Phase 5: Polish & Release ✅
-- [x] Comprehensive documentation
+- [x] Documentation
 - [x] 4 complete examples
 - [x] PyPI publication ready
-- [x] 95% test coverage (188 tests)
-- [x] All quality checks passing
 
 ## Contributing
 
@@ -459,18 +457,9 @@ MIT License - see [LICENSE](LICENSE) file for details.
 **Version**: 0.1.0 (MVP) ✅
 
 ### Statistics
-- **Lines of Code**: ~3,400
-- **Test Coverage**: 95% (188 tests)
 - **Supported Python**: 3.9, 3.10, 3.11, 3.12
-- **Quality**: Black, Ruff, MyPy ✅
+- **Quality tools**: Black, Ruff, MyPy
 - **CI/CD**: GitHub Actions (automated testing and quality checks)
-
-### Implementation Progress
-- ✅ Phase 1: Core Infrastructure (100%)
-- ✅ Phase 2: Cost Tracking & Analytics (100%)
-- ✅ Phase 3: Advanced Execution (100%)
-- ✅ Phase 4: Integrations (100%)
-- ✅ Phase 5: Polish & Release (100%)
 
 ## Support
 
@@ -487,14 +476,14 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-**Built with ❤️ by the Socratic Ecosystem**
+**Built by Efthimios Angelopoulos**
 
 
 ---
 
-## Part of Socrates AI Ecosystem
+## Origin
 
-This package is a component of [**Socrates AI**](https://github.com/Nireus79/Socrates), a production-ready platform for building intelligent multi-agent systems with constitutional governance.
+This package comes from the [Socrates](https://github.com/Nireus79/Socrates) research prototype, which is not maintained as a product. Status: alpha. Written by Efthimios Angelopoulos with AI coding assistants (Claude Code); I design, review and test it. Contact: Hermes_creative@proton.me.
 
 ### Use This Package Standalone:
 ```bash
